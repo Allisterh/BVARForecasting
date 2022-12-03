@@ -1,5 +1,7 @@
 module BVARForecasting
 
+using LinearAlgebra
+
 function var_ols(data,p)
     """
     Inputs: data - matrix of data, p - number of lags
