@@ -1,6 +1,14 @@
 module BVARForecasting
 
-using LinearAlgebra
+using LinearAlgebra, Distributions
+
+mutable struct BVARModel
+    gamma_sample
+    psi_sample
+    u_sample
+    y_til_sample
+    data
+end
 
 function var_ols(data,p)
     """
@@ -29,14 +37,6 @@ function var_ols(data,p)
     uhat = (Y - Z*Γ_hat)
     S = uhat' * uhat #/ (T - m*p - 1)
     return Γ_hat, S, Y, Z
-end
-
-mutable struct BVARModel
-    gamma_sample
-    psi_sample
-    u_sample
-    y_til_sample
-    data
 end
 
 function simulate_norm_wish_post(data, lags, sam_size)
@@ -78,7 +78,7 @@ function simulate_norm_wish_post(data, lags, sam_size)
     end
 
     # Reurn sample of draws from the forecast distribution
-    return BVARModel(Γ_sam, Ψ_sam, u_sam, y_til)
+    return BVARModel(Γ_sam, Ψ_sam, u_sam, y_til, data)
 end
 
 end  # end module
